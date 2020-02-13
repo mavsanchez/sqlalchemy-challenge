@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{%block head %}
+
+{% endblock %}
+
+{% block content %}
+    {% for key in json_content %}
+        <pre>{{key|tojson}}</pre>
+    {% endfor %}
+{% endblock %}
+

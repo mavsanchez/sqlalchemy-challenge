@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+    <html lang="en-us">
+    <head>
+      <meta charset="UTF-8">
+      <title>Climate App</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}" />
+      {% block head %}{% endblock %}
+    </head>
+    
+<body>
+    
+      <h1>Climate Apps</h1>
+    
+      <h3>Available Endpoints</h3>
+      <ul>
+        <li><a href='/api/v1.0/precipitation'>/api/v1.0/precipitation </a></li>
+        <li><a href='/api/v1.0/stations'>/api/v1.0/stations</a></li>
+        <li><a href='/api/v1.0/tobs'>/api/v1.0/tobs</a></li>
+        <li><a href='/api/v1.0/start'>/api/v1.0/(start)</a></li>
+        <li><a href='/api/v1.0/start/end'>/api/v1.0/(start)/(end)</a></li>
+      </ul>
+      
+      {% block content %}<div id="content"></div>{% endblock %}
+
+</body>
+    
+</html>

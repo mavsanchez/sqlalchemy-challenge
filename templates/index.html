@@ -1,12 +1,48 @@
 {% extends 'base.html' %}
 
 {%block head %}
+<script>
+$(document).ready(function () {
+    if ('{{message_type}}' != "Error"){
+     	$('.alert-autocloseable-success').hide();
+		$('.alert-autocloseable-success').show();
+        $('.alert-autocloseable-success').delay(5000).fadeOut("slow");
+    } else{
+        $('.alert-autocloseable-danger').hide();
+        $('.alert-autocloseable-danger').show();
+        $('.alert-autocloseable-danger').delay(5000).fadeOut("slow");
+    }
+		});
+</script>
+{% endblock %}
+
+{% block message %}
+
+{% if 'Success' in message_type %}
+    <div class="alert alert-success alert-custom alert-autocloseable-success">
+        {{message_content}}
+    </div>
+{% else %}
+    <div class="alert alert-danger alert-custom alert-autocloseable-danger">
+        {{message_content}}
+    </div>
+{% endif %}
 
 {% endblock %}
 
 {% block content %}
-    {% for key in json_content %}
-        <pre>{{key|tojson}}</pre>
-    {% endfor %}
+    <!-- {% for key in json_content %}
+        {{key|tojson}}
+    {% endfor %} -->
+
+    <div id="json"></div>
+	<script>
+		var jsonObj = {};
+		var jsonViewer = new JSONViewer();
+		document.querySelector("#json").appendChild(jsonViewer.getContainer());
+		var value = '{{ json_content|tojson }}';
+		jsonObj = JSON.parse(value);
+        jsonViewer.showJSON(jsonObj);
+	</script>
 {% endblock %}
 

@@ -26,10 +26,10 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    return render_template('index.html',json_content={'Welcome!': 'Contents will be displayed here'}, message_type="Success", message_content="Welcome!")
 
-@app.route("/api/v1.0/precipitation", methods=['GET', 'POST'])
-def precipitation():
+@app.route("/api/v1.0/precipitation/<type>", methods=['GET', 'POST'])
+def precipitation(type):
     session = Session(engine)
     results = session.query(Measurement.date, Measurement.prcp).limit(10).all()
     session.close()
@@ -40,13 +40,14 @@ def precipitation():
         measurement_dict['Date'] = date
         measurement_dict['Precipitation'] = prcp
         all_measurements.append(measurement_dict)
-    
+        
+    if type != "raw":
+        return render_template('index.html', json_content=all_measurements, message_type="Success", message_content="Success! Returning Precipitation data")
+    else:
+        return jsonify(all_measurements)
 
-    # python_data = json.loads(json.dumps(all_measurements))
-    return render_template('index.html', json_content=all_measurements)
-
-@app.route("/api/v1.0/stations", methods=['GET', 'POST'])
-def stations():
+@app.route("/api/v1.0/stations/<type>", methods=['GET', 'POST'])
+def stations(type):
     session = Session(engine)
     results = session.query(Station.id, Station.station, Station.name, Station.latitude, Station.longitude, Station.elevation).all()
     session.close()
@@ -61,12 +62,15 @@ def stations():
         station_dict['Longitude'] = longitude
         station_dict['Elevation'] = elevation
         all_stations.append(station_dict)
-    # python_data = json.loads(json.dumps(all_measurements))
-    return render_template('index.html', json_content=all_stations)
+    
+    if type != "raw":
+        return render_template('index.html', json_content=all_stations, message_type="Success", message_content="Success! Returning Stations data")
+    else:
+        return jsonify(all_stations)
 
 
-@app.route("/api/v1.0/tobs", methods=['GET', 'POST'])
-def tobs():
+@app.route("/api/v1.0/tobs/<type>", methods=['GET', 'POST'])
+def tobs(type):
     session = Session(engine)
     max_date = session.query(func.max(Measurement.date)).first()
     maxdate = dt.datetime.strptime(str(max_date[0]), "%Y-%m-%d")
@@ -83,8 +87,10 @@ def tobs():
         measurement_dict['Precipitation'] = tobs
         all_measurements.append(measurement_dict)
     
-    # python_data = json.loads(json.dumps(all_measurements))
-    return render_template('index.html', json_content=all_measurements)
+    if type != "raw":
+        return render_template('index.html', json_content=all_measurements, message_type="Success", message_content="Success! Returning the last 12 months Total Observed Temperature data")
+    else:
+        return jsonify(all_measurements)
 
 
 if __name__ == "__main__":

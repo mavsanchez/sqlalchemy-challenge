@@ -3,24 +3,67 @@
     <head>
       <meta charset="UTF-8">
       <title>Climate App</title>
-      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}" />
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+      <script src="{{ url_for('static',filename='json-viewer.js') }}"></script>
+      <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+      <link rel="stylesheet" href="{{ url_for('static',filename='json-viewer.css') }}">
       {% block head %}{% endblock %}
     </head>
     
 <body>
     
-      <h1>Climate Apps</h1>
-    
-      <h3>Available Endpoints</h3>
-      <ul>
-        <li><a href='/api/v1.0/precipitation'>/api/v1.0/precipitation </a></li>
-        <li><a href='/api/v1.0/stations'>/api/v1.0/stations</a></li>
-        <li><a href='/api/v1.0/tobs'>/api/v1.0/tobs</a></li>
-        <li><a href='/api/v1.0/start'>/api/v1.0/(start)</a></li>
-        <li><a href='/api/v1.0/start/end'>/api/v1.0/(start)/(end)</a></li>
-      </ul>
+      <h1 style="text-shadow: 2px 2px black;">Climate App</h1>
+
+      <div class="container">
+        <!--Normally these medium columns go full wide on small screen sizes-->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="mx-auto" style="width: 400px; text-align: center;">
+              <h3>Available Endpoints</h3>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <!-- <div class="col-md-2"></div> -->
+          <div class="col-md-4" style="text-align: center;">
+              <a class="btn btn-primary btn-custom btn-lg btn-block" href='/api/v1.0/precipitation/inline'>Inline /api/v1.0/precipitation</a>
+              <a class="btn btn-primary btn-custom btn-lg btn-block" href='/api/v1.0/stations/inline'>Inline /api/v1.0/stations</a>
+              <a class="btn btn-primary btn-custom btn-lg btn-block" href='/api/v1.0/tobs/inline'>Inline /api/v1.0/tobs</a>
+              <a class="btn btn-primary btn-custom btn-lg btn-block" href='/api/v1.0/inline/start'>Inline /api/v1.0/start</a>
+              <a class="btn btn-primary btn-custom btn-lg btn-block" href='/api/v1.0/inline/start/end'>Inline /api/v1.0/start/end</a>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="img_class">
+              <img src="{{ url_for('static',filename='weather.gif') }}">
+            </div>
+          </div>
+
+          <div class="col-md-4" style="text-align: center;">
+            <a class="btn btn-primary btn-custom btn-lg btn-block" target="_blank" href='/api/v1.0/precipitation/raw'>Precipitation Raw JSON</a>
+            <a class="btn btn-primary btn-custom btn-lg btn-block" target="_blank" href='/api/v1.0/stations/raw'>Stations Raw JSON</a>
+            <a class="btn btn-primary btn-custom btn-lg btn-block" target="_blank" href='/api/v1.0/tobs/raw'>Total Observations Raw JSON</a>
+            <a class="btn btn-primary btn-custom btn-lg btn-block" target="_blank" href='/api/v1.0/raw/start'>Start Date Raw JSON</a>
+            <a class="btn btn-primary btn-custom btn-lg btn-block" target="_blank" href='/api/v1.0/raw/start/end'>Start and End Date Raw JSON</a>
+        </div>
+        <!-- <div class="col-md-2"></div> -->
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+            {% block message %}{% endblock %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="container-fluid">{% block content %}{% endblock %}</div>
+          </div>
+     </div>
       
-      {% block content %}<div id="content"></div>{% endblock %}
 
 </body>
     

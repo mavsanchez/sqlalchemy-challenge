@@ -27,6 +27,7 @@ img {
 .container-fluid {
     border: 1px solid #2B579A;
     margin-top: 1%;
+    padding-top: 1%;
     background: #FFFAF0;
     border-radius: 15px;
   }
